@@ -1,0 +1,36 @@
+{
+  "name": "boilerplate-nodejs-typescript-express-postgres",
+  "description": "example of node typescript express postgres project",
+  "version": "1.0.5",
+  "author": "Erik Mangor",
+  "dependencies": {
+    "async": "3.2.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "pg": "^8.6.0",
+    "winston": "3.3.3"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.19.0",
+    "@types/cors": "^2.8.10",
+    "@types/dotenv": "^6.1.1",
+    "@types/express": "^4.17.12",
+    "@types/node": "^15.12.2",
+    "@types/pg": "^8.6.0",
+    "typescript": "^4.3.2"
+  },
+  "engines": {
+    "node": "10.15.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/emangor/boilerplate-typescript-express-postgres.git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "start": "node build/app.js",
+    "build": "tsc"
+  }
+}
