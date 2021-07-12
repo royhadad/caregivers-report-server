@@ -15,15 +15,16 @@ export const getReport = async (req: Request, res: Response) => {
 
     const sql = `
         SELECT
-            caregiver.id      AS caregiver_id,
-            caregiver.name    AS caregiver_name,
-            patient.id        AS patient_id,
-            patient.name      AS patient_name,
-            visit.date        AS visit_date
+            caregiver.id                 AS caregiver_id,
+            array_agg(caregiver.name)    AS caregiver_names,
+            array_agg(patient.id)        AS patients_ids,
+            array_agg(patient.name)      AS patients_names,
+            array_agg(visit.date)        AS visit_dates
         FROM caregiver
         JOIN visit ON visit.caregiver = caregiver.id
         JOIN patient ON patient.id = visit.patient
         WHERE visit.date BETWEEN '$${year}-01-01' AND '$${year}-12-31'
+        GROUP BY caregiver.id
     `;
     
     let result : QueryResult;
@@ -36,8 +37,8 @@ export const getReport = async (req: Request, res: Response) => {
 
         for ( let row of result.rows) {
             report.caregivers.push({
-                name: row.caregiver_name,
-                patients: [row.patient_name]
+                name: row.caregiver_names[0],
+                patients: row.patients_names
             })
         }
         res.status(200).json(report);
