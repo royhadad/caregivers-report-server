@@ -1,4 +1,4 @@
-import { Client, PoolClient, Pool, QueryResult } from 'pg';
+import { Pool, PoolClient, QueryResult} from 'pg';
 import config = require('./../config');
 import logger = require('./../utils/logger');
 
@@ -58,7 +58,7 @@ export const getTransaction = async () => {
  * @param data: the data to be stored
  * @return result
  */
-export const sqlExecSingleRow = async (client:Client, sql:string, data:string[][]) => {
+export const sqlExecSingleRow = async (client:PoolClient, sql:string, data:string[][]) => {
     logger.debug(`sqlExecSingleRow() sql: ${sql} | data: ${data}`);
     let result : QueryResult;
     try {
@@ -77,7 +77,7 @@ export const sqlExecSingleRow = async (client:Client, sql:string, data:string[][
  * @param data: the data to be stored
  * @return result
  */
-export const sqlExecMultipleRows = async (client:Client, sql:string, data:string[][]) => {
+export const sqlExecMultipleRows = async (client:PoolClient, sql:string, data:string[][]) => {
     logger.debug(`inside sqlExecMultipleRows()`);
     logger.debug(`sqlExecMultipleRows() data: ${data}`);
     if (data.length !== 0) {
