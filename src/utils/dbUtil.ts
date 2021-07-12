@@ -1,4 +1,4 @@
-import { Client, Pool, QueryResult } from 'pg';
+import { Client, PoolClient, Pool, QueryResult } from 'pg';
 import config = require('./../config');
 import logger = require('./../utils/logger');
 
@@ -43,7 +43,7 @@ export const sqlToDB = async (sql:string, data:string[]) => {
  */
 export const getTransaction = async () => {
     logger.debug(`getTransaction()`);
-    const client : Client = await pool.connect();
+    const client: PoolClient = await pool.connect();
     try {
         await client.query('BEGIN');
         return client;
@@ -100,7 +100,7 @@ export const sqlExecMultipleRows = async (client:Client, sql:string, data:string
 /*
  * Rollback transaction
  */
-export const rollback = async (client:Client) => {
+export const rollback = async (client:PoolClient) => {
     if (typeof client !== 'undefined' && client) {
         try {
             logger.info(`sql transaction rollback`);
@@ -118,7 +118,7 @@ export const rollback = async (client:Client) => {
 /*
  * Commit transaction
  */
-export const commit = async (client:Client) => {
+export const commit = async (client:PoolClient) => {
     logger.debug(`sql transaction committed`);
     try {
         await client.query('COMMIT');
