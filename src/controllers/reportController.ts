@@ -1,5 +1,5 @@
-import { Request, Response } from 'express';
-import { QueryResult } from 'pg';
+import {Request, Response} from 'express';
+import {QueryResult} from 'pg';
 import * as dbUtil from './../utils/dbUtil';
 
 interface Report {
@@ -11,6 +11,7 @@ interface Report {
 }
 
 export const getReport = async (req: Request, res: Response) => {
+    const {year} = req.params;
 
     const sql = `
         SELECT
@@ -22,13 +23,14 @@ export const getReport = async (req: Request, res: Response) => {
         FROM caregiver
         JOIN visit ON visit.caregiver = caregiver.id
         JOIN patient ON patient.id = visit.patient
+        WHERE visit.date BETWEEN '$${year}-01-01' AND '$${year}-12-31'
     `;
     
     let result : QueryResult;
     try {
         result = await dbUtil.sqlToDB(sql, []);
         const report: Report = {
-            year: parseInt(req.params.year),
+            year: parseInt(year),
             caregivers: []
         };
 
